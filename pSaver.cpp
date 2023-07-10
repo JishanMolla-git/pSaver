@@ -29,7 +29,7 @@ void savePasswords(const std::unordered_map<std::string, std::string>& passwords
     {
         for (const auto& entry : passwords)
         {
-            file << entry.first << "," << entry.second << "\n";
+            file << entry.first << "\n" << entry.second << "\n";
         }
 
         std::cout << "Passwords saved successfully!\n";
@@ -105,7 +105,7 @@ void copyToClipboard(const std::string& text)
 int main()
 {
     std::unordered_map<std::string, std::string> passwords;
-    std::string filename = "passwords.txt";
+    std::string filename = "passwords-store.txt";
     std::string latestAccount;
     std::string latestPassword;
     std::string retrievedAccount;
