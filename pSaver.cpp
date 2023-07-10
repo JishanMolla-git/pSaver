@@ -107,6 +107,8 @@ int main()
     std::string filename = "passwords.txt";
     std::string latestAccount;
     std::string latestPassword;
+    std::string retrievedAccount;
+    std::string retrievedPassword;
 
     std::srand(static_cast<unsigned int>(std::time(nullptr))); // Seed the random number generator
 
@@ -154,6 +156,10 @@ int main()
             {
                 std::cout << "Account: " << account << "\n";
                 std::cout << "Password: " << passwords[account] << "\n";
+
+                // Save the retrieved account and password
+                retrievedAccount = account;
+                retrievedPassword = passwords[account];
             }
             else
             {
@@ -190,7 +196,20 @@ int main()
         }
         else if (choice == 7)
         {
+            savePasswords(passwords, filename);
             break;
+        }
+        else if (choice == 8)
+        {
+            if (!retrievedAccount.empty() && !retrievedPassword.empty())
+            {
+                passwords[retrievedAccount] = retrievedPassword;
+                std::cout << "Retrieved account and password saved successfully!\n";
+            }
+            else
+            {
+                std::cout << "No retrieved account and password available!\n";
+            }
         }
         else
         {
