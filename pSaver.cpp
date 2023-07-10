@@ -20,10 +20,9 @@ std::string generatePassword(int length)
     return password;
 }
 
-
-void savePasswords(const std::unordered_map<std::string, std::string>& passwords, const std::string& filename)
+void savePasswords(const std::unordered_map<std::string, std::string>& passwords)
 {
-    std::ofstream file(filename);
+    std::ofstream file("passwords-store.txt");
 
     if (file.is_open())
     {
@@ -42,9 +41,9 @@ void savePasswords(const std::unordered_map<std::string, std::string>& passwords
     file.close();
 }
 
-void loadPasswords(std::unordered_map<std::string, std::string>& passwords, const std::string& filename)
+void loadPasswords(std::unordered_map<std::string, std::string>& passwords)
 {
-    std::ifstream file(filename);
+    std::ifstream file("passwords-store.txt");
 
     if (file.is_open())
     {
@@ -105,7 +104,6 @@ void copyToClipboard(const std::string& text)
 int main()
 {
     std::unordered_map<std::string, std::string> passwords;
-    std::string filename = "passwords-store.txt";
     std::string latestAccount;
     std::string latestPassword;
     std::string retrievedAccount;
@@ -113,7 +111,7 @@ int main()
 
     std::srand(static_cast<unsigned int>(std::time(nullptr))); // Seed the random number generator
 
-    loadPasswords(passwords, filename);
+    loadPasswords(passwords);
 
     std::cout << "Password Manager\n";
 
@@ -122,10 +120,9 @@ int main()
         std::cout << "\n1. Generate and Store Password\n";
         std::cout << "2. Retrieve Password\n";
         std::cout << "3. Save Passwords\n";
-        std::cout << "4. Specify File Path\n";
-        std::cout << "5. Open Password File\n";
-        std::cout << "6. Copy Latest Account and Password to Clipboard\n";
-        std::cout << "7. Exit\n";
+        std::cout << "4. Open Password File\n";
+        std::cout << "5. Copy Latest Account and Password to Clipboard\n";
+        std::cout << "6. Exit\n";
         std::cout << "Enter your choice: ";
 
         int choice;
@@ -150,7 +147,6 @@ int main()
             latestAccount = account;
             latestPassword = password;
         }
-
         else if (choice == 2)
         {
             std::string account;
@@ -174,20 +170,13 @@ int main()
         }
         else if (choice == 3)
         {
-            savePasswords(passwords, filename);
+            savePasswords(passwords);
         }
         else if (choice == 4)
         {
-            std::cout << "Enter the file path: ";
-            std::cin >> filename;
-            std::cout << "File path set to: " << filename << "\n";
-            loadPasswords(passwords, filename);
+            openFile("passwords-store.txt");
         }
         else if (choice == 5)
-        {
-            openFile(filename);
-        }
-        else if (choice == 6)
         {
             if (!latestAccount.empty() && !latestPassword.empty())
             {
@@ -200,22 +189,10 @@ int main()
                 std::cout << "No latest account and password available!\n";
             }
         }
-        else if (choice == 7)
+        else if (choice == 6)
         {
-            savePasswords(passwords, filename);
+            savePasswords(passwords);
             break;
-        }
-        else if (choice == 8)
-        {
-            if (!retrievedAccount.empty() && !retrievedPassword.empty())
-            {
-                passwords[retrievedAccount] = retrievedPassword;
-                std::cout << "Retrieved account and password saved successfully!\n";
-            }
-            else
-            {
-                std::cout << "No retrieved account and password available!\n";
-            }
         }
         else
         {
@@ -225,3 +202,4 @@ int main()
 
     return 0;
 }
+
