@@ -6,7 +6,7 @@
 #include <ctime>
 #include <Windows.h>
 
-std::string generatePassword(int length = 8)
+std::string generatePassword(int length)
 {
     const std::string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
     std::string password;
@@ -19,6 +19,7 @@ std::string generatePassword(int length = 8)
 
     return password;
 }
+
 
 void savePasswords(const std::unordered_map<std::string, std::string>& passwords, const std::string& filename)
 {
@@ -137,7 +138,11 @@ int main()
             std::cout << "Enter the account name: ";
             std::cin >> account;
 
-            std::string password = generatePassword();
+            int length;
+            std::cout << "Enter the password length: ";
+            std::cin >> length;
+
+            std::string password = generatePassword(length);
             passwords[account] = password;
 
             std::cout << "Generated password: " << password << "\n";
@@ -145,6 +150,7 @@ int main()
             latestAccount = account;
             latestPassword = password;
         }
+
         else if (choice == 2)
         {
             std::string account;
